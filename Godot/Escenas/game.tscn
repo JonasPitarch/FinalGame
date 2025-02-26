@@ -1,0 +1,116 @@
+[gd_scene load_steps=10 format=3 uid="uid://b0g3r41ntoyrd"]
+
+[ext_resource type="Script" path="res://Escenas/game.gd" id="1_0emyv"]
+[ext_resource type="PackedScene" uid="uid://83asplprfbxr" path="res://Escenas/jugador.tscn" id="1_cep0u"]
+[ext_resource type="Texture2D" uid="uid://gm3dvfrkhsge" path="res://Assets/bosque.png" id="1_ivpye"]
+[ext_resource type="PackedScene" uid="uid://up3f3kxh6lss" path="res://Escenas/spawner.tscn" id="2_cwr2l"]
+[ext_resource type="Script" path="res://Escenas/DeadScreen.gd" id="5_wwv3c"]
+[ext_resource type="AudioStream" uid="uid://bkphtc7hxrc4m" path="res://Assets/Sonidos/Daydream Anatomy - 8-Bit Heroes - 03 Nin10day.mp3" id="6_lw418"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1g7m"]
+size = Vector2(319, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nd8r3"]
+size = Vector2(20, 189)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1ghc2"]
+font_size = 27
+
+[node name="Game" type="Node"]
+script = ExtResource("1_0emyv")
+
+[node name="Bosque" type="Sprite2D" parent="."]
+position = Vector2(160.5, 90.5)
+scale = Vector2(0.249219, 0.245833)
+texture = ExtResource("1_ivpye")
+
+[node name="Jugador" parent="." instance=ExtResource("1_cep0u")]
+position = Vector2(133, 134)
+
+[node name="Caja de colision" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Caja de colision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Caja de colision/StaticBody2D"]
+position = Vector2(160.5, 169)
+shape = SubResource("RectangleShape2D_l1g7m")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Caja de colision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Caja de colision/StaticBody2D2"]
+position = Vector2(0, 84.5)
+shape = SubResource("RectangleShape2D_nd8r3")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Caja de colision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Caja de colision/StaticBody2D3"]
+position = Vector2(310, 87)
+shape = SubResource("RectangleShape2D_nd8r3")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Caja de colision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Caja de colision/StaticBody2D4"]
+position = Vector2(155, -4)
+shape = SubResource("RectangleShape2D_l1g7m")
+
+[node name="Spawner" parent="." instance=ExtResource("2_cwr2l")]
+position = Vector2(251, 48)
+
+[node name="Spawner2" parent="." instance=ExtResource("2_cwr2l")]
+position = Vector2(222, 48)
+
+[node name="Spawner3" parent="." instance=ExtResource("2_cwr2l")]
+position = Vector2(190, 48)
+
+[node name="Spawner4" parent="." instance=ExtResource("2_cwr2l")]
+position = Vector2(160, 48)
+
+[node name="Spawner5" parent="." instance=ExtResource("2_cwr2l")]
+position = Vector2(128, 48)
+
+[node name="Spawner6" parent="." instance=ExtResource("2_cwr2l")]
+position = Vector2(90, 48)
+
+[node name="Puntuacion" type="Label" parent="."]
+offset_left = 18.0
+offset_top = 9.0
+offset_right = 58.0
+offset_bottom = 35.0
+text = "0"
+label_settings = SubResource("LabelSettings_1ghc2")
+
+[node name="DeadScreen" type="CanvasLayer" parent="."]
+process_mode = 3
+visible = false
+script = ExtResource("5_wwv3c")
+
+[node name="Deadlbl" type="Label" parent="DeadScreen"]
+offset_left = 90.0
+offset_top = 11.0
+offset_right = 228.0
+offset_bottom = 51.0
+text = "Perdedor!!"
+label_settings = SubResource("LabelSettings_1ghc2")
+
+[node name="Reset" type="Button" parent="DeadScreen"]
+offset_left = 42.0
+offset_top = 93.0
+offset_right = 118.0
+offset_bottom = 124.0
+text = "Reiniciar
+"
+
+[node name="Exit" type="Button" parent="DeadScreen"]
+offset_left = 177.0
+offset_top = 92.0
+offset_right = 253.0
+offset_bottom = 123.0
+text = "Salir
+"
+
+[node name="Musica" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_lw418")
+
+[connection signal="marcup" from="Jugador" to="." method="_on_jugador_marcup"]
+[connection signal="pressed" from="DeadScreen/Reset" to="DeadScreen" method="_on_reset_pressed"]
+[connection signal="pressed" from="DeadScreen/Exit" to="DeadScreen" method="_on_exit_pressed"]
